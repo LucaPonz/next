@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import AppointmentsContextProvider from "@/contexts/AppointmentsContextProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,9 +15,39 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const appointments = [
+      {
+        start: "2024-07-30T15:00:00.000Z",
+        end: "2024-07-30T16:00:00.000Z",
+        id: "1",
+        title: "Sara",
+      },
+      {
+        start: "2024-07-02T1500:00.000Z",
+        end: "2024-07-02T16:00:00.000Z",
+        id: "2",
+        title: "Giulia",
+      },
+      {
+        start: "2024-07-01T15:00:00.000Z",
+        end: "2024-07-01T17:00:00.000Z",
+        id: "3",
+        title: "Anna",
+      },
+      {
+        start: "2024-07-03T15:30:00.000Z",
+        end: "2024-07-03T17:00:00.000Z",
+        id: "4",
+        title: "Carlo",
+      },
+  ];
+
   return (
+    <AppointmentsContextProvider data={appointments}>
     <html lang="en">
       <body className={inter.className}>{children}</body>
     </html>
+    </AppointmentsContextProvider>
   );
 }
