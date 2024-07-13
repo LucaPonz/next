@@ -1,15 +1,34 @@
 import { Appointment, TAppointmentsContext } from "./types";
 
+function Hours(startTime: number) {
+  return (Math.floor((startTime) / 60))
+}
+
+function Minutes(startTime: number) {
+  return ((startTime) % 60)
+}
 
 export function appointmentsByDayConverter(week: Date[], appointmentsContext: TAppointmentsContext) {
   const appointmentsByDay: Appointment[][] = [];
   week.map((day: Date) => {
     appointmentsByDay[day.getDay()] = [];
     appointmentsContext.appointments.map((item: Appointment) => {
-      if (new Date(item.start).getDay() === day.getDay()) {
+      if (new Date(item.startIso).getDay() === day.getDay()) {
         appointmentsByDay[day.getDay()].push(item);
       }
     });
   });
   return appointmentsByDay
 }
+
+export function stringAppointmentHour(startTime: number) {
+  return (
+    String(Hours(startTime)).padStart(2, "0") + " : " + String(Minutes(startTime)).padStart(2, "0")
+  );
+}
+
+export function minutesToIsoString( day: Date, minutes: number) {
+  return new Date(day.setUTCHours( Hours(minutes) , Minutes(minutes), 0)).toISOString()
+}
+
+

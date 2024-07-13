@@ -1,9 +1,13 @@
-export default function CalendarHoursColumn( props: {hoursItems: number[]}) {
+import { hoursItems } from "@/app/lib/planner"
+import { THourSlot } from "@/app/lib/types"
+import { stringAppointmentHour } from "@/app/lib/utils"
+
+export default function CalendarHoursColumn() {
     return(
         <div className="basis-24 flex flex-col pt-24">
-            {props.hoursItems.map((offset: number) => {
+            {hoursItems.map((item: THourSlot) => {
                 return(
-                    <div key={offset} className="h-12 text-xs text-right pr-2">{String(Math.floor(offset*60/60)).padStart(2,'0')} : {String(offset*60%60).padStart(2,'0')}</div>
+                    <div key={item.key} className="h-12 text-xs text-right pr-2 -top-2 relative">{stringAppointmentHour(item.startTime)}</div>
                 )
             })}
         </div>

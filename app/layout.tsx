@@ -18,26 +18,26 @@ export default function RootLayout({
 
   const appointments = [
       {
-        start: "2024-07-30T15:00:00.000Z",
-        end: "2024-07-30T16:00:00.000Z",
+        startIso: "2024-07-30T15:00:00.000Z",
+        endIso: "2024-07-30T16:00:00.000Z",
         id: "1",
         title: "Sara",
       },
       {
-        start: "2024-07-02T1500:00.000Z",
-        end: "2024-07-02T16:00:00.000Z",
+        startIso: "2024-07-02T1500:00.000Z",
+        endIso: "2024-07-02T16:00:00.000Z",
         id: "2",
         title: "Giulia",
       },
       {
-        start: "2024-07-01T15:00:00.000Z",
-        end: "2024-07-01T17:00:00.000Z",
+        startIso: "2024-07-01T15:00:00.000Z",
+        endIso: "2024-07-01T17:00:00.000Z",
         id: "3",
         title: "Anna",
       },
       {
-        start: "2024-07-03T15:30:00.000Z",
-        end: "2024-07-03T17:00:00.000Z",
+        startIso: "2024-07-03T15:30:00.000Z",
+        endIso: "2024-07-03T17:00:00.000Z",
         id: "4",
         title: "Carlo",
       },
