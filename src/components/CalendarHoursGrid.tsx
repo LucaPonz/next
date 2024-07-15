@@ -1,10 +1,9 @@
-import { THourSlot } from "@/app/lib/types"
+import { THourSlot } from "@/src/lib/types"
 import Cell from "./Cell"
-import { hoursItems } from "@/app/lib/planner"
+import { hoursItems } from "@/src/lib/planner"
 
 export default function CalendarHoursGrid(props: {week: Date[]}) {
     
-
     const weekHoursRows = 
     props.week.map((day: Date) => {
         return (

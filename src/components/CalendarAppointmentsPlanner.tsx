@@ -1,9 +1,9 @@
 "use client";
 
-import { Appointment } from "@/app/lib/types";
-import { UseAppointmentsContext } from "../app/hooks/hooks";
+import { TAppointment } from "@/src/lib/types";
+import { UseAppointmentsContext } from "../hooks/hooks";
 import CalendarAppointment from "./CalendarAppointment";
-import { appointmentsByDayConverter } from "@/app/lib/utils";
+import { appointmentsByDayConverter } from "@/src/lib/utils";
 
 export default function CalendarAppointmentsPlanner(props: { week: Date[] }) {
   
@@ -18,7 +18,7 @@ export default function CalendarAppointmentsPlanner(props: { week: Date[] }) {
         return (
           <div key={day.getDay()} className="basis-[14.285%] relative">
             {appointmentsOfTheDay ? (
-              appointmentsOfTheDay.map((appointment: Appointment) =>
+              appointmentsOfTheDay.map((appointment: TAppointment) =>
                 <CalendarAppointment item={appointment} key={appointment.id}></CalendarAppointment>
               )
             ) : (

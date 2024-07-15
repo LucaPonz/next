@@ -8,7 +8,7 @@ import {
 } from "@nextui-org/modal";
 import { Button } from "@nextui-org/button";
 import CalendarAppointmentForm from "./CalendarAppointmentForm";
-import { THourSlot } from "@/app/lib/types";
+import { THourSlot } from "@/src/lib/types";
 
 
 export default function Cell(props: { hourKey: string; day: Date; hoursItems: THourSlot[]; week: Date[] }) {
