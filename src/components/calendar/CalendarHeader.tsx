@@ -8,8 +8,8 @@ export default function CalendarHeader(props:{week: Date[]}) {
     })
 
   return (
-    <div className="w-full">
-        <div className="ml-24 h-24 flex border-b border-gray-200">
+    <div className="w-full bg-gray-50 border-b border-gray-200">
+        <div className="ml-24 h-24 flex">
           {weekDatesCells}
         </div>
     </div>

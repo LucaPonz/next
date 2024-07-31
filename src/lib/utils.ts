@@ -1,4 +1,4 @@
-import { TAppointment, TAppointmentsContext } from "./types";
+import { Appointment } from "@prisma/client";
 
 function Hours(startTime: number) {
   return (Math.floor((startTime) / 60))
@@ -8,11 +8,11 @@ function Minutes(startTime: number) {
   return ((startTime) % 60)
 }
 
-export function appointmentsByDayConverter(week: Date[], appointmentsContext: TAppointmentsContext) {
-  const appointmentsByDay: TAppointment[][] = [];
+export function appointmentsByDayConverter(week: Date[], appointments: Appointment[]) {
+  const appointmentsByDay: Appointment[][] = [];
   week.map((day: Date) => {
     appointmentsByDay[day.getDay()] = [];
-    appointmentsContext.appointments.map((item: TAppointment) => {
+    appointments.map((item: Appointment) => {
       if (new Date(item.startIso).getDay() === day.getDay()) {
         appointmentsByDay[day.getDay()].push(item);
       }

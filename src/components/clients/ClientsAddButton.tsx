@@ -1,45 +1,45 @@
+"use client"
+
+import { Button } from "@nextui-org/button";
 import {
   Modal,
-  ModalContent,
-  ModalHeader,
   ModalBody,
+  ModalContent,
   ModalFooter,
+  ModalHeader,
   useDisclosure,
 } from "@nextui-org/modal";
-import { Button } from "@nextui-org/button";
-import CalendarAppointmentForm from "./calendar/CalendarAppointmentForm";
-import { THourSlot } from "@/src/lib/types";
+import { FaPlus } from "react-icons/fa6";
+import ClientsAddForm from "./ClientsAddForm";
 
-
-export default function Cell(props: { hourKey: string; day: Date; hoursItems: THourSlot[]; week: Date[] }) {
-
+export default function ClientsAddButton() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <>
       <Button
-        className="border-l border-gray-200 h-12 border-b rounded-none bg-white data-[pressed=true]:scale-1"
+        radius="full"
+        className="h-12 w-12 flex items-center justify-center p-0 min-w-0 absolute bottom-8 right-8"
         onPress={onOpen}
-      ></Button>
+      >
+        <FaPlus />
+      </Button>
 
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
-                {/* {props.start.toString()} - {props.end.toString()} */}
-              </ModalHeader>
+              <ModalHeader className="flex flex-col gap-1"></ModalHeader>
 
               <ModalBody>
                 <div className="flex gap-4">
                   <div className="w-full flex flex-col gap-4">
-                    <CalendarAppointmentForm day={props.day} hourKey={props.hourKey} hoursItems={props.hoursItems} week={props.week}/>
+                    <ClientsAddForm />
                   </div>
                 </div>
               </ModalBody>
 
               <ModalFooter>
-
                 <Button color="danger" variant="light" onPress={onClose}>
                   Close
                 </Button>
@@ -48,11 +48,10 @@ export default function Cell(props: { hourKey: string; day: Date; hoursItems: TH
                   color="primary"
                   onPress={onClose}
                   type="submit"
-                  form="addAppointment"
+                  form="addClient"
                 >
                   Action
                 </Button>
-
               </ModalFooter>
             </>
           )}

@@ -1,6 +1,8 @@
 import { AppointmentsContext } from "@/src/contexts/AppointmentsContextProvider"
 import { ClientsContext } from "@/src/contexts/ClientsContextProvider";
 import { useContext } from "react"
+import { SearchContext } from "../contexts/SearchContextProvider";
+import { UsersContext } from "../contexts/UsersContexProvider";
 
 export function UseAppointmentsContext() {
     const context = useContext(AppointmentsContext)
@@ -18,4 +20,22 @@ export function UseClientsContext() {
       }
     
     return context;
+}
+
+export function UseSearchContext() {
+    const context = useContext(SearchContext)
+    if (!context) {
+        throw new Error("useSearchContext must be used within a SearchContextProvider");
+      }
+    
+    return context;
+}
+
+export function useUsersContext() {
+  const context = useContext(UsersContext)
+  if (!context) {
+    throw new Error("useUserContext must be used within a UsersContextProvider");
+  }
+
+  return context;
 }

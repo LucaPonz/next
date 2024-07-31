@@ -14,7 +14,7 @@ export default function Calendar() {
 
 
   return (
-    <>
+    <div className="container mx-auto px-5">
       <div className="bg-white border-b border-gray-200 h-40 sticky top-0 w-full z-20">
         <CalendarTopBar selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
         <CalendarHeader week={week(selectedDay)} />
@@ -34,6 +34,6 @@ export default function Calendar() {
         </div>
 
       </div>
-    </>
+    </div>
   );
 }

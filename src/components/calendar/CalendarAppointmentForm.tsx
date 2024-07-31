@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import CalendarAppointmentFormSelect from "./CalendarAppointmentFormSelect";
 import { Radio, RadioGroup } from "@nextui-org/radio";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/autocomplete";
+import { addAppointment, deleteAppointmentById } from "@/src/lib/actions";
 const Moment = require("moment");
 const MomentRange = require("moment-range");
 
@@ -19,15 +20,13 @@ export default function CalendarAppointmentForm(props: {
   hoursItems: THourSlot[];
   week: Date[];
 }) {
-  const appointmentsContext = UseAppointmentsContext();
+  const appointments = UseAppointmentsContext()
 
-  const clientsContext = UseClientsContext();
-
-  const clients = clientsContext.clients;
+  const clients = UseClientsContext().clients;
 
   const appointmentsByDay = appointmentsByDayConverter(
     props.week,
-    appointmentsContext
+    appointments.appointments
   );
 
   const [clientValue, setClientValue] = useState<string | null>();
@@ -46,14 +45,15 @@ export default function CalendarAppointmentForm(props: {
     const newAppointment = {
       startIso: start ? minutesToIsoString(props.day, start) : "",
       endIso: start ? minutesToIsoString(props.day, start + 60) : "",
-      id: Math.random().toString(),
-      clientOne: formData.get("clientOne") as string,
-      clientTwo: formData.get("clientTwo") as string,
+      // clientOne: formData.get("clientOne") as string,
+      // clientTwo: formData.get("clientTwo") as string,
       color:
         formData.get("select") === "lezione privata"
           ? "bg-cyan-400"
           : "bg-amber-400",
     };
+
+    // overlap
 
     const overlappingIds: string[] = [];
 
@@ -69,9 +69,14 @@ export default function CalendarAppointmentForm(props: {
       }
     });
 
-    appointmentsContext.handleDeleteAppointment(overlappingIds);
+    // end overlap
 
-    appointmentsContext.handleAddAppointment(newAppointment);
+    overlappingIds.forEach( element => {
+      deleteAppointmentById(element)
+    })
+
+    addAppointment(newAppointment);
+
   };
 
   return (
@@ -101,7 +106,7 @@ export default function CalendarAppointmentForm(props: {
         onSelectionChange={(key) => setClientValue(key as string)}
       >
         {(client) => (
-          <AutocompleteItem key={client.key}>
+          <AutocompleteItem key={client.id}>
             {client.name}
           </AutocompleteItem>
         )}
@@ -111,11 +116,10 @@ export default function CalendarAppointmentForm(props: {
         <Autocomplete
           defaultItems={clients}
           label="Cliente"
-          className=""
-          name="clientTwo"  
+          name="clientTwo"
         >
           {(client) => (
-            <AutocompleteItem key={client.key}>
+            <AutocompleteItem key={client.id}>
               {client.name}
             </AutocompleteItem>
           )}

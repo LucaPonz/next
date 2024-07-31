@@ -1,10 +1,11 @@
 import { UseAppointmentsContext } from "@/src/hooks/hooks";
-import { TAppointment } from "@/src/lib/types";
+import { Appointment } from "@prisma/client";
 import { stringAppointmentHour } from "@/src/lib/utils";
 import { FaRegCircleXmark } from "react-icons/fa6";
 import { FaPen } from "react-icons/fa6";
+import { deleteAppointmentById } from "@/src/lib/actions";
 
-export default function CalendarAppointment(props: { item: TAppointment }) {
+export default function CalendarAppointment(props: { item: Appointment }) {
   const appointmentDuration = 1;
   const slotHeight = 96;
   const slotPadding = 6;
@@ -29,12 +30,14 @@ export default function CalendarAppointment(props: { item: TAppointment }) {
 
   const handleDelete = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    appointmentsContext.handleDeleteAppointment(props.item.id)
+
+    deleteAppointmentById(props.item.id)
   };
 
   const handleEdit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    appointmentsContext.handleDeleteAppointment(props.item.id)
+
+    deleteAppointmentById(props.item.id)
   };
 
   const start =
@@ -50,8 +53,8 @@ export default function CalendarAppointment(props: { item: TAppointment }) {
     >
       <div>
         <h3 className="">
-          {props.item.clientOne ? props.item.clientOne : "senza titolo"}
-          {props.item.clientTwo ? ` - ${props.item.clientTwo}` : ""}
+          {/* {props.item.clientOne ? props.item.clientOne : "senza titolo"}
+          {props.item.clientTwo ? ` - ${props.item.clientTwo}` : ""} */}
         </h3>
         <p>
           {stringAppointmentHour(start)} - {stringAppointmentHour(end)}

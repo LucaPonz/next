@@ -1,5 +1,5 @@
 import { THourSlot } from "@/src/lib/types"
-import Cell from "./Cell"
+import Cell from "../Cell"
 import { hoursItems } from "@/src/lib/planner"
 
 export default function CalendarHoursGrid(props: {week: Date[]}) {

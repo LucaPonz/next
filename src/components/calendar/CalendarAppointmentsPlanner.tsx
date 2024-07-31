@@ -1,15 +1,13 @@
-"use client";
-
-import { TAppointment } from "@/src/lib/types";
-import { UseAppointmentsContext } from "../hooks/hooks";
+import { Appointment } from "@prisma/client";
+import { UseAppointmentsContext } from "../../hooks/hooks";
 import CalendarAppointment from "./CalendarAppointment";
 import { appointmentsByDayConverter } from "@/src/lib/utils";
 
 export default function CalendarAppointmentsPlanner(props: { week: Date[] }) {
   
-  const appointmentsContext = UseAppointmentsContext();
+  const appointments = UseAppointmentsContext();
 
-  const appointmentsByDay = appointmentsByDayConverter( props.week, appointmentsContext )
+  const appointmentsByDay = appointmentsByDayConverter( props.week, appointments.appointments )
 
   return (
     <div className="w-full flex">
@@ -18,7 +16,7 @@ export default function CalendarAppointmentsPlanner(props: { week: Date[] }) {
         return (
           <div key={day.getDay()} className="basis-[14.285%] relative">
             {appointmentsOfTheDay ? (
-              appointmentsOfTheDay.map((appointment: TAppointment) =>
+              appointmentsOfTheDay.map((appointment: Appointment) =>
                 <CalendarAppointment item={appointment} key={appointment.id}></CalendarAppointment>
               )
             ) : (

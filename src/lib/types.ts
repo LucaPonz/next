@@ -1,20 +1,13 @@
-export type TAppointment = {
-  startIso: string;
-  endIso: string;
-  id: string;
-  clientOne: string;
-  clientTwo: string | undefined;
-  color: string; 
-};
+import { Client, User, Appointment } from "@prisma/client";
 
 export type TAppointmentsContext = {
-    appointments: TAppointment[];
-    handleAddAppointment: (newAppointment: TAppointment) => void;
-    handleDeleteAppointment: (appointmentIds: string[] | string) => void;
+  appointments: Appointment[];
+  // handleAddAppointment: (newAppointment: Appointment) => void;
+  // handleDeleteAppointment: (appointmentIds: string[] | string) => void;
 }
 
 export type TAppointmentsContextProviderProps = {
-  appointments: TAppointment[];
+  data: Appointment[];
   children: React.ReactNode;
 };
 
@@ -24,20 +17,36 @@ export type THourSlot = {
   label: string,
 }
 
-export type TClient = {
-  name: string,
-  surname: string,
-  age: number,
-  key: string,
-}
-
 export type TClientsContext = {
-  clients: TClient[];
+  clients: Client[];
+  handleChangeSelectedClientId: (id: string) => void;
+  handleAddClient: (newClient :Client) => void;
+  handleDeleteClient: (selectedClientId : string) => void;
+  selectedClient: Client | undefined;
 }
 
 export type TClientsContextProviderProps = {
-clients: TClient[];
-children: React.ReactNode;
+  data: Client[];
+  children: React.ReactNode;
 };
+
+export type TSearchContext = {
+  search: string;
+  handleChangeSearch: (newValue: string) => void
+}
+
+export type TSearchContextProviderProps = {
+  data: string;
+  children: React.ReactNode;
+};
+
+export type TUsersContext = {
+  users: User[],
+}
+
+export type TUsersContextProviderProps = {
+  data: User[];
+  children: React.ReactNode,
+}
 
 
