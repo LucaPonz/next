@@ -6,6 +6,9 @@ import ClientsContextProvider from "@/src/contexts/ClientsContextProvider";
 import SearchContextProvider from "../contexts/SearchContextProvider";
 import UsersContextProvider from "../contexts/UsersContexProvider";
 import prisma from "../lib/db";
+import { Appointment } from "@prisma/client";
+import { week } from "../lib/planner";
+import CurrentDayContextProvider from "../contexts/CurrentDayContextProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,26 +23,25 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const appointments = await prisma.appointment.findMany()
+const clients = await prisma.client.findMany()
 
-  const clients = await prisma.client.findMany()
+const users = await prisma.user.findMany()
 
-  const users = await prisma.user.findMany()
+const currentDay = new Date()
 
   return (
+  <CurrentDayContextProvider data={currentDay}>
     <SearchContextProvider data={""}>
-      <AppointmentsContextProvider data={appointments}>
         <ClientsContextProvider data={clients}>
           <UsersContextProvider data={users}>
-          <html lang="en">
-            <body className={inter.className}>
-              {children}
-            </body>
-          </html>
+              <html lang="en">
+                <body className={inter.className}>
+                  {children}
+                </body>
+              </html>
           </UsersContextProvider>
         </ClientsContextProvider>
-      </AppointmentsContextProvider>
     </SearchContextProvider>
-
+  </CurrentDayContextProvider>
   );
 }

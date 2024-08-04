@@ -1,23 +1,18 @@
-"use client"
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import CalendarHeader from "./CalendarHeader";
 import CalendarHoursGrid from "./CalendarHoursGrid";
 import CalendarAppointmentsPlanner from "./CalendarAppointmentsPlanner";
 import CalendarHoursColumn from "./CalendarHoursColumn";
-import { today } from "@/src/lib/planner";
-import { week } from "@/src/lib/planner";
 import CalendarTopBar from "./CalendarTopBar";
+import prisma from "@/src/lib/db";
 
-export default function Calendar() {
-  
-  const [selectedDay, setSelectedDay] = useState<Date>(today);
-
+export default async function Calendar() {
 
   return (
     <div className="container mx-auto px-5">
       <div className="bg-white border-b border-gray-200 h-40 sticky top-0 w-full z-20">
-        <CalendarTopBar selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
-        <CalendarHeader week={week(selectedDay)} />
+        <CalendarTopBar />
+        <CalendarHeader />
       </div>
 
       <div className="flex">
@@ -26,11 +21,9 @@ export default function Calendar() {
 
         <div className="w-full">
 
-          <CalendarAppointmentsPlanner
-            week={week(selectedDay)}
-          />
+          <CalendarAppointmentsPlanner />
 
-          <CalendarHoursGrid week={week(selectedDay)} />
+          <CalendarHoursGrid />
         </div>
 
       </div>

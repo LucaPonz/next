@@ -13,7 +13,7 @@ export function appointmentsByDayConverter(week: Date[], appointments: Appointme
   week.map((day: Date) => {
     appointmentsByDay[day.getDay()] = [];
     appointments.map((item: Appointment) => {
-      if (new Date(item.startIso).getDay() === day.getDay()) {
+      if (new Date(item.start).getDay() === day.getDay()) {
         appointmentsByDay[day.getDay()].push(item);
       }
     });

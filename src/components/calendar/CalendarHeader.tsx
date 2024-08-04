@@ -1,9 +1,16 @@
-import CalendarHeaderDayCell from "./CalendarHeaderDayCell";
+"use client"
 
-export default function CalendarHeader(props:{week: Date[]}) {
-  
+import { UseAppointmentsContext, UseCurrentDayContext } from "@/src/hooks/hooks";
+import CalendarHeaderDayCell from "./CalendarHeaderDayCell";
+import { week } from "@/src/lib/planner";
+
+export default function CalendarHeader() {
+  const currentDay = UseCurrentDayContext().currentDay
+
+  const weekMap = week(currentDay)
+
   const weekDatesCells = 
-    props.week.map((day: Date) => {
+    weekMap.map((day: Date) => {
       return <CalendarHeaderDayCell day={day} key={day.getDay()}></CalendarHeaderDayCell>
     })
 

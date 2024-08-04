@@ -3,6 +3,7 @@ import { ClientsContext } from "@/src/contexts/ClientsContextProvider";
 import { useContext } from "react"
 import { SearchContext } from "../contexts/SearchContextProvider";
 import { UsersContext } from "../contexts/UsersContexProvider";
+import { CurrentDayContext } from "../contexts/CurrentDayContextProvider";
 
 export function UseAppointmentsContext() {
     const context = useContext(AppointmentsContext)
@@ -31,8 +32,17 @@ export function UseSearchContext() {
     return context;
 }
 
-export function useUsersContext() {
+export function UseUsersContext() {
   const context = useContext(UsersContext)
+  if (!context) {
+    throw new Error("useUserContext must be used within a UsersContextProvider");
+  }
+
+  return context;
+}
+
+export function UseCurrentDayContext() {
+  const context = useContext(CurrentDayContext)
   if (!context) {
     throw new Error("useUserContext must be used within a UsersContextProvider");
   }

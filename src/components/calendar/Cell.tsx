@@ -7,7 +7,7 @@ import {
   useDisclosure,
 } from "@nextui-org/modal";
 import { Button } from "@nextui-org/button";
-import CalendarAppointmentForm from "./calendar/CalendarAppointmentForm";
+import CalendarAppointmentForm from "./CalendarAppointmentForm";
 import { THourSlot } from "@/src/lib/types";
 
 

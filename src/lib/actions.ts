@@ -4,6 +4,7 @@ import { Appointment } from "@prisma/client"
 import { signIn } from "./auth"
 import prisma from "./db"
 import { revalidatePath } from "next/cache"
+import { week } from "./planner"
 
 export async function getAppointmentById(appointmentId: Appointment["id"]) {
     const appointment = await prisma.appointment.findUnique({
@@ -20,16 +21,22 @@ export async function login(formData: FormData) {
     await signIn("credentials", authData)
 }
 
-export async function addAppointment(newAppointment: Omit<Appointment, "id">) {
+export async function addAppointment(newAppointment: Omit<Appointment, "id">, clientOneId: string, clientTwoId?: string) {
 
     await prisma.appointment.create({
         data: {
-            startIso: newAppointment.startIso,
-            endIso: newAppointment.endIso,
-            color: newAppointment.color,
-        }
+            start: newAppointment["start"],
+            end: newAppointment["end"],
+            color: newAppointment["color"],
+            clients: {
+                connect: [
+                    { id: clientOneId  },
+                ]
+            }
+        },
+
     })
-    revalidatePath("/", "layout")
+    revalidatePath("/admin/calendar", "page");
 }
 
 export async function deleteAppointmentById(appointmentId: Appointment["id"]) {
@@ -37,7 +44,9 @@ export async function deleteAppointmentById(appointmentId: Appointment["id"]) {
     const appointment = getAppointmentById(appointmentId)
 
     if(!appointment){
-        console.log("app not found")
+        console.log("appointment not found")
+    }else{
+        console.log("appointment found")
     }
 
     try {
@@ -47,12 +56,21 @@ export async function deleteAppointmentById(appointmentId: Appointment["id"]) {
           },
         });
       } catch (error) {
-        return {
-          message: "Could not delete pet.",
-        };
+          console.log({error})
       }
     
-    revalidatePath("/", "layout");
+    revalidatePath("/admin/calendar", "page");
+}
+
+export async function getClientsByAppointment(app: Appointment) {
+    const clients = await prisma.client.findMany({
+        where: {
+            appointments: {
+                some: {}
+            }
+        }
+    })
+    return clients
 }
 
 

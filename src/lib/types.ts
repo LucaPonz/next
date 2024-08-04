@@ -1,13 +1,12 @@
 import { Client, User, Appointment } from "@prisma/client";
 
 export type TAppointmentsContext = {
-  appointments: Appointment[];
-  // handleAddAppointment: (newAppointment: Appointment) => void;
-  // handleDeleteAppointment: (appointmentIds: string[] | string) => void;
+  appointmentsOfTheWeek: Appointment[][];
+  handleSetAppointmentsOfTheWeek: (updatedAppointments: Appointment[][]) => void
 }
 
 export type TAppointmentsContextProviderProps = {
-  data: Appointment[];
+  data: Appointment[][];
   children: React.ReactNode;
 };
 
@@ -46,7 +45,16 @@ export type TUsersContext = {
 
 export type TUsersContextProviderProps = {
   data: User[];
-  children: React.ReactNode,
+  children: React.ReactNode;
 }
 
+export type TCurrentDayContext = {
+  currentDay: Date;
+  handleChangeCurrentDay: (newDay: Date) => void
+}
+
+export type TCurrentDayContextProviderProps = {
+  data: Date;
+  children: React.ReactNode;
+}
 

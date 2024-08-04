@@ -1,9 +1,7 @@
+"use client"
+
 import { UseAppointmentsContext, UseClientsContext } from "@/src/hooks/hooks";
 import { THourSlot } from "@/src/lib/types";
-import {
-  appointmentsByDayConverter,
-  minutesToIsoString,
-} from "@/src/lib/utils";
 import React, { useState } from "react";
 import CalendarAppointmentFormSelect from "./CalendarAppointmentFormSelect";
 import { Radio, RadioGroup } from "@nextui-org/radio";
@@ -20,14 +18,9 @@ export default function CalendarAppointmentForm(props: {
   hoursItems: THourSlot[];
   week: Date[];
 }) {
-  const appointments = UseAppointmentsContext()
+  const appointmentsOfTheWeek = UseAppointmentsContext().appointmentsOfTheWeek
 
   const clients = UseClientsContext().clients;
-
-  const appointmentsByDay = appointmentsByDayConverter(
-    props.week,
-    appointments.appointments
-  );
 
   const [clientValue, setClientValue] = useState<string | null>();
 
@@ -37,16 +30,14 @@ export default function CalendarAppointmentForm(props: {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-
+    
     const start = props.hoursItems.find(
       (item) => item.key == formData.get("start")
     )?.startTime;
 
     const newAppointment = {
-      startIso: start ? minutesToIsoString(props.day, start) : "",
-      endIso: start ? minutesToIsoString(props.day, start + 60) : "",
-      // clientOne: formData.get("clientOne") as string,
-      // clientTwo: formData.get("clientTwo") as string,
+      start: start ? new Date(props.day.setUTCHours(Math.floor(start / 60), start % 60)) : new Date(), // da rivedere caso in cui start is undefined
+      end: start ? new Date(props.day.setUTCHours(Math.floor(start / 60) + 1, start % 60)) : new Date(), // da rivedere caso in cui start is undefined
       color:
         formData.get("select") === "lezione privata"
           ? "bg-cyan-400"
@@ -57,13 +48,12 @@ export default function CalendarAppointmentForm(props: {
 
     const overlappingIds: string[] = [];
 
-    appointmentsByDay[props.day.getDay()].map((app) => {
-      const range1 = moment.range(new Date(app.startIso), new Date(app.endIso));
+    appointmentsOfTheWeek[props.day.getDay()].map((app) => {
+      const range1 = moment.range(app.start, app.end);
       const range2 = moment.range(
-        new Date(newAppointment.startIso),
-        new Date(newAppointment.endIso)
+        new Date(newAppointment.start),
+        new Date(newAppointment.end)
       );
-      console.log(range1.overlaps(range2, { adjacent: false }));
       if (range1.overlaps(range2, { adjacent: false })) {
         overlappingIds.push(app.id);
       }
@@ -75,7 +65,7 @@ export default function CalendarAppointmentForm(props: {
       deleteAppointmentById(element)
     })
 
-    addAppointment(newAppointment);
+    addAppointment(newAppointment, formData.get("clientOne") as string, formData.get("clientTwo") as string);
 
   };
 
@@ -107,7 +97,7 @@ export default function CalendarAppointmentForm(props: {
       >
         {(client) => (
           <AutocompleteItem key={client.id}>
-            {client.name}
+            {client.id}
           </AutocompleteItem>
         )}
       </Autocomplete>
@@ -120,7 +110,7 @@ export default function CalendarAppointmentForm(props: {
         >
           {(client) => (
             <AutocompleteItem key={client.id}>
-              {client.name}
+              {client.id}
             </AutocompleteItem>
           )}
         </Autocomplete>
